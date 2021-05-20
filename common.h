@@ -1,0 +1,6 @@
+#ifndef MINIFS_COMMON_H
+#define MINIFS_COMMON_H
+
+enum commands {LS=1, RM, MKDIR, RMDIR, PUT, GET, QUIT, CREATE};
+
+#endif //MINIFS_COMMON_H

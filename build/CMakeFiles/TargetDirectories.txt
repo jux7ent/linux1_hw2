@@ -1,0 +1,4 @@
+/home/jux7ent/Documents/Linux1/hw2/build/CMakeFiles/edit_cache.dir
+/home/jux7ent/Documents/Linux1/hw2/build/CMakeFiles/rebuild_cache.dir
+/home/jux7ent/Documents/Linux1/hw2/build/CMakeFiles/clientFS.dir
+/home/jux7ent/Documents/Linux1/hw2/build/CMakeFiles/serverFS.dir

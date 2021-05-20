@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jux7ent/Documents/Linux1/hw2/network/common.h
+
+/home/jux7ent/Documents/Linux1/hw2/network/server.c
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+unistd.h
+-
+arpa/inet.h
+-
+stdlib.h
+-
+common.h
+/home/jux7ent/Documents/Linux1/hw2/network/common.h
+

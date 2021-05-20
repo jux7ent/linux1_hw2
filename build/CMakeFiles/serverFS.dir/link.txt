@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/serverFS.dir/network/server.c.o  -o serverFS 

@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/clientFS.dir/network/client.c.o  -o clientFS 
