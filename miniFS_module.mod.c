@@ -28,6 +28,7 @@ __used __section(__versions) = {
 	{ 0x9de7765d, "module_layout" },
 	{ 0x6bc3fbc0, "__unregister_chrdev" },
 	{ 0xf6ba0674, "__register_chrdev" },
+	{ 0x362ef408, "_copy_from_user" },
 	{ 0xcbd4898c, "fortify_panic" },
 	{ 0x9166fada, "strncpy" },
 	{ 0x61651be, "strcat" },
@@ -42,6 +43,8 @@ __used __section(__versions) = {
 	{ 0xd0e40bb7, "filp_close" },
 	{ 0xf39042a8, "filp_open" },
 	{ 0xebbe12f0, "current_task" },
+	{ 0x88db9f48, "__check_object_size" },
+	{ 0xb44ad4b3, "_copy_to_user" },
 	{ 0xc5850110, "printk" },
 	{ 0xa8fdfe8, "try_module_get" },
 	{ 0x9b858114, "module_put" },
@@ -51,4 +54,4 @@ __used __section(__versions) = {
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "B44BE0E2FE032FCCAA7564D");
+MODULE_INFO(srcversion, "640744A6E94012B350E163B");

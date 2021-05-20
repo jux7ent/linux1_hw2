@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/jux7ent/Documents/Linux1/hw2/network/client.c
+/home/jux7ent/Documents/Linux1_hw2/network/client.c
 sys/types.h
 -
 sys/socket.h
@@ -24,7 +24,7 @@ unistd.h
 arpa/inet.h
 -
 common.h
-/home/jux7ent/Documents/Linux1/hw2/network/common.h
+/home/jux7ent/Documents/Linux1_hw2/network/common.h
 
-/home/jux7ent/Documents/Linux1/hw2/network/common.h
+/home/jux7ent/Documents/Linux1_hw2/network/common.h
 

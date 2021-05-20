@@ -12,17 +12,16 @@
 //#include "utils.h"
 //#include "fs.h"
 
-char buff[100];
+char buff[200];
 
 char* read_result() {
-
 	//system("cat /dev/miniFSDevice");
 	
 	FILE* fp;
 	fp = fopen("/dev/miniFSDevice", "r");
 	
 	if (fp == NULL) {
-		printf("FILE NULL\n");
+		//printf("FILE NULL\n");
 		return NULL;
 	}
 	
@@ -30,13 +29,13 @@ char* read_result() {
 	char c;
 	while ((c = fgetc(fp)) != EOF) {
 		buff[index] = c;
-		printf("%c", c);
+		//printf("%c", c);
 		++index;
 	}
 	buff[index] = 0;
 	
 	fclose(fp);
-	printf("buff{%s}\n", buff);
+	//printf("buff{%s}\n", buff);
 	return buff;
 }
 
@@ -45,8 +44,8 @@ char command[100];
 char template[] = "echo \"%s\n\" > /dev/miniFSDevice";
 
 int main(int argc, char* argv[]) {
-	/*if (fork() == 0) {
-	setsid();*/
+	if (fork() == 0) {
+	setsid();
 
 	struct sockaddr_in serv, dest;
 	socklen_t socksize = sizeof(struct sockaddr_in);
@@ -94,12 +93,15 @@ int main(int argc, char* argv[]) {
 			sprintf(command, template, path, strlen(path));
 			system(command);
 
-			printf("LS {%s}\n", command);
-			fflush(stdout);
-			
+			//printf("LS {%s}\n", command);
+			//fflush(stdout);
+			//
 			char* result = read_result();
-			printf("RESULT {%s}\n", result);
-			fflush(stdout);
+			result[strlen(result) - 1] = '\0';
+			
+			//printf("RESULT {%s}\n", result);
+			
+			//fflush(stdout);
 			send(destfd, result, strlen(result), 0);
 		}
 		if (c == MKDIR) {
@@ -113,8 +115,8 @@ int main(int argc, char* argv[]) {
 		    
 		    temp[0] = c;
 		    
-		    printf("temp|%s|\n", temp);
-		    fflush(stdout);
+		   // printf("temp|%s|\n", temp);
+		   // fflush(stdout);
 		    
 		    sprintf(command, template, temp, strlen(temp));
 		    system(command);
@@ -146,8 +148,8 @@ int main(int argc, char* argv[]) {
 			system(command);
 			
 			char* result = read_result();
-			printf("CAT RESULT |%s|\n", result);
-			fflush(stdout);
+			//printf("CAT RESULT |%s|\n", result);
+			//fflush(stdout);
 			send(destfd, result, strlen(result), 0);
 		}
 		if (c == CREATE) {
@@ -156,10 +158,10 @@ int main(int argc, char* argv[]) {
 			recv(destfd, message + 1, 300 * sizeof(char), 0);
 			message[0] = c;
 			
-			printf("|%s|\n", message + 1);
+			//printf("|%s|\n", message + 1);
 			
-			printf("FORM MESSAGE: |%s|\n", message);
-			fflush(stdout);
+			//printf("FORM MESSAGE: |%s|\n", message);
+			//fflush(stdout);
 
 			sprintf(command, template, message, strlen(message));
 			system(command);
@@ -168,9 +170,9 @@ int main(int argc, char* argv[]) {
 	    close(destfd);
 	    destfd = accept(fd, (struct sockaddr *) &dest, &socksize);
 	}
-	/*} else {
+	} else {
 	printf("Daemon successfully started...\n");
-	}*/
+	}
     return 0;
 }
 

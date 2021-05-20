@@ -68,9 +68,14 @@ int main(int argc, char* argv[]) {
             scanf("%s", path);
             send(fd, &c, sizeof(c), 0);
             send(fd, path, 100 * sizeof(char), 0);
+            
+            int i;
+            for (i = 0; i < 100; ++i) {
+            	result[i] = 0;
+            }
 
             recv(fd, result, 100, 0);
-            printf("%s", result);
+            printf("%s\n", result);
         }
         if (strcmp(command, "mkdir") == 0) {
             char c = MKDIR;
@@ -121,6 +126,11 @@ int main(int argc, char* argv[]) {
 
             send(fd, &c, sizeof(c), 0);
             send(fd, path, 100 * sizeof(char), 0);
+            
+            int i;
+            for (i = 0; i < 100; ++i) {
+            	result[i] = 0;
+            }
 
             recv(fd, result, 100, 0);
             printf("%s\n", result);
@@ -137,7 +147,7 @@ int main(int argc, char* argv[]) {
             char* file_content_ptr = file_content + 1;
             file_content[strlen(file_content) - 1] = 0;
             
-            printf("|%s|%s|%s|\n", path, name, file_content_ptr);
+            //printf("|%s|%s|%s|\n", path, name, file_content_ptr);
             
             char message[300];
             sprintf(message, "%s %s %s", path, name, file_content_ptr);

@@ -1,0 +1,1 @@
+cmd_/home/jux7ent/Documents/Linux1_hw2/miniFS_module.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id=sha1  -T ./scripts/module-common.lds -o /home/jux7ent/Documents/Linux1_hw2/miniFS_module.ko /home/jux7ent/Documents/Linux1_hw2/miniFS_module.o /home/jux7ent/Documents/Linux1_hw2/miniFS_module.mod.o;  true

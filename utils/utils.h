@@ -10,24 +10,27 @@ void create(char* path, char* name, void* file, size_t size);
 
 char* ls(char* path, size_t* ressize) {
     size_t indx = find_file(path); 
-    
     size_t size = get_inode(indx)->size_of_file;
     dir_record* files = read_file(indx);
 
     char* buf = malloc(sizeof(char));
     buf[0] = 0;
     size_t bufsize = 1;
+    
     int i;
     for (i = 0; i < size / sizeof(dir_record); ++i) {
         bufsize += strlen(files[i].name) + 1;
         buf = realloc(buf, bufsize);
         strcat(buf, files[i].name);
         strcat(buf, "\n");
+        
+        pr_info("APPEND TO LS {%s}\n", files[i].name);
     }
     free(files);
     if (ressize) {
         *ressize = bufsize;
     }
+    pr_info("LS RESULT BUFF {%s}", buf);
     return buf;
 }
 

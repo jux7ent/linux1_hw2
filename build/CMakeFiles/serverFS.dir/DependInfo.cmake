@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/jux7ent/Documents/Linux1/hw2/network/server.c" "/home/jux7ent/Documents/Linux1/hw2/build/CMakeFiles/serverFS.dir/network/server.c.o"
+  "/home/jux7ent/Documents/Linux1_hw2/network/server.c" "/home/jux7ent/Documents/Linux1_hw2/build/CMakeFiles/serverFS.dir/network/server.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

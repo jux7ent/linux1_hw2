@@ -6,5 +6,5 @@ C_FLAGS =   -std=gnu99
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/jux7ent/Documents/Linux1/hw2/network 
+C_INCLUDES = -I/home/jux7ent/Documents/Linux1_hw2/network 
 

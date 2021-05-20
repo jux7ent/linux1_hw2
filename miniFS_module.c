@@ -32,34 +32,57 @@ static struct file_operations file_ops = {
 };
 
 char* result_from_fs;
+bool printed = false;
 
 static ssize_t device_read(struct file* flip, char* buffer, size_t len, loff_t* offset) {
+	if (*offset != 0) {
+		*offset = 0;
+		return 0;
+	}
+	
 	printk(KERN_INFO "read\n");
 	
 	if (result_from_fs != NULL) {
 		int res_len = strlen(result_from_fs);
-		strcpy(buffer, result_from_fs);
+		
+		if (res_len == 0) {
+			copy_to_user(buffer, " ", 1);
+			result_from_fs = NULL;
+			return 1;
+		}
+		
+		//strcpy(buffer, result_from_fs);
 		
 		pr_info("DEVICE READ READED{%s}\n", buffer);
+		pr_info("res from fs{%s}\n", result_from_fs);
+		
+		copy_to_user(buffer, result_from_fs, res_len);
+		
+		pr_info("DEVICE READ READED AFTER COPY{%s}\n", buffer);
 		
 		result_from_fs = NULL;
+		printed = false;
 		
+		pr_info("RESULT FROM FS READ {%s}", buffer);
+		pr_info("RESULT FROM FS READ LEN {%ld}", res_len);
 		return res_len;
-	} else {
-		return 0;
-	}
+	}/* else if (!printed) {
+		pr_info("print dump %ld", 2 * BLOCK_SIZE + NUMBER_OF_BLOCKS * BLOCK_SIZE);
+		copy_to_user(buffer, dev, 2 * BLOCK_SIZE + NUMBER_OF_BLOCKS * BLOCK_SIZE);
+		
+		printed = true;
+		
+		return 2 * BLOCK_SIZE + NUMBER_OF_BLOCKS * BLOCK_SIZE;
+	}*/
 	
-	//memcpy(buffer, test, strlen());
-  
-  // TODO
-
-  
+	return 0;
 }
 
 static ssize_t device_write(struct file* flip, const char* buffer, size_t len, loff_t* offset) {
   // printk(KERN_ALERT "This operation is not supported...\nBut you try to write: %s\n", buffer);
 
-  char *message = buffer;
+  char *message = malloc(len);
+  copy_from_user(message, buffer, len);
   message[len - 2] = 0;
   
   char command = message[0];
@@ -71,9 +94,24 @@ static ssize_t device_write(struct file* flip, const char* buffer, size_t len, l
   	pr_info("command is LS\n");
   	char* path = message;
   	
-  	char* list = ls(path, NULL);
+  	size_t ressize;
+  	char* list = ls(path, &ressize);
   	
-  	result_from_fs = list;
+  	pr_info("LS LSIT {%s}", list);
+  	
+  	
+  	result_from_fs = malloc(strlen(list));
+  	strcpy(result_from_fs, list);
+  	
+  	result_from_fs[ressize] = 0;
+  	
+  	pr_info("RESULT FROM FS {%s}", result_from_fs);
+  	
+  	if (result_from_fs == NULL) {
+  		result_from_fs = "";
+  	}
+  	
+  	free(list);
   } else if (command == MKDIR) {
   	pr_info("command is MKDIR\n");
   	
@@ -85,13 +123,17 @@ static ssize_t device_write(struct file* flip, const char* buffer, size_t len, l
   	
   	mkdir(path, name);
   	
-  	result_from_fs = " ";
+  	result_from_fs = "";
   } else if (command == GET) { // cat
   	pr_info("command is CAT\n");
   	
   	char* path = message;
   	pr_info("cat %s", path);
   	result_from_fs = cat(path);
+  	
+  	if (result_from_fs == NULL) {
+  		result_from_fs = "";
+  	}
   } else if (command == CREATE) {
   	pr_info("command is create\n");
   	pr_info("message: |%s|\n", message);
@@ -105,16 +147,21 @@ static ssize_t device_write(struct file* flip, const char* buffer, size_t len, l
   	pr_info("create_file |%s| |%s| |%s|\n", path, name, file_content);
   	
   	create(path, name, file_content, strlen(file_content) + 1);
+  	
+  	result_from_fs = "";
   } else if (command == RMDIR) {
   	pr_info("command rm_dir\n");
   	
   	char* path = message;
   	mrmdir(path);
+  	
+  	result_from_fs = "";
   } else if (command == RM) {
   	pr_info("command rm\n");
   	
   	char* path = message;
   	rm(path);
+  	result_from_fs = "";
   } else {
   	pr_info("unknown command\n");
   }
@@ -152,7 +199,7 @@ static int __init hello_init(void) {
 
 	// ================= start symbol device ============================
 	
-	if (start_fs("/home/jux7ent/Documents/Linux1/hw2/fs_container") == 0) {
+	if (start_fs("/home/jux7ent/Documents/Linux1_hw2/fs_container") == 0) {
 		printk(KERN_INFO "FS started\n");
 	} else {
 		printk(KERN_INFO "FS FAILURE\n");

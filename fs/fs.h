@@ -114,6 +114,7 @@ void remove_file(size_t indx, size_t parent_indx) {
 
 void create_file(void* file, size_t size, char* name, size_t parent_indx, int type) {
     printk(KERN_INFO "INSIDE CREATE_FILE(%s) NAME(%s) PARENT_INDX(%ld)", file, name, parent_indx);
+    
     size_t indx = set_index(&sb.bitmap_inodes);
     inode* node = &inode_table[indx];
     node->type_of_file = type;
@@ -312,7 +313,7 @@ void make_block_list(long begin) {
         long next_pos = begin + (i + 1) * sb.size_of_block;
        // pr_info("next_pos %ld\n", next_pos);
         fwrite(&next_pos, sizeof(next_pos), 1); // записываю цепочку, чтобы каждый блок содержал индекс следующего блока
-        fseek(dev, sb.size_of_block/* - sizeof(next_pos)*/, SEEK_CUR); // ?
+        fseek(dev, sb.size_of_block, SEEK_CUR);
     }
 }
 
