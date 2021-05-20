@@ -61,8 +61,7 @@ int main(int argc, char* argv[]) {
             char c = QUIT;
             send(fd, &c, sizeof(c), 0);
             break;
-        }
-        if (strcmp(command, "ls") == 0) {
+        } else if (strcmp(command, "ls") == 0) {
             char c = LS;
             char path[100];
             scanf("%s", path);
@@ -76,8 +75,7 @@ int main(int argc, char* argv[]) {
 
             recv(fd, result, 100, 0);
             printf("%s\n", result);
-        }
-        if (strcmp(command, "mkdir") == 0) {
+        } else if (strcmp(command, "mkdir") == 0) {
             char c = MKDIR;
             char path[100];
             char name[12];
@@ -86,24 +84,21 @@ int main(int argc, char* argv[]) {
             send(fd, &c, sizeof(c), 0);
             send(fd, path, 100 * sizeof(char), 0);
             send(fd, name, 12 * sizeof(char), 0);
-        }
-        if (strcmp(command, "rmdir") == 0) {
+        } else if (strcmp(command, "rmdir") == 0) {
             char c = RMDIR;
             char path[100];
             scanf("%s", path);
 
             send(fd, &c, sizeof(c), 0);
             send(fd, path, 100 * sizeof(char), 0);
-        }
-        if (strcmp(command, "rm") == 0) {
+        } else if (strcmp(command, "rm") == 0) {
             char c = RM;
             char path[100];
             scanf("%s", path);
 
             send(fd, &c, sizeof(c), 0);
             send(fd, path, 100 * sizeof(char), 0);
-        }
-        if (strcmp(command, "put") == 0) {
+        } else if (strcmp(command, "put") == 0) {
             char c = PUT;
             size_t size;
             char path[100];
@@ -118,8 +113,7 @@ int main(int argc, char* argv[]) {
             send(fd, &size, sizeof(size), 0);
             send(fd, file, size, 0);
             free(file);
-        }
-        if (strcmp(command, "cat") == 0) {
+        } else if (strcmp(command, "cat") == 0) {
             char c = GET;
             char path[100];
             scanf("%s", path);
@@ -134,9 +128,7 @@ int main(int argc, char* argv[]) {
 
             recv(fd, result, 100, 0);
             printf("%s\n", result);
-        }
-        
-        if (strcmp(command, "create_file") == 0) {
+        } else if (strcmp(command, "create_file") == 0) {
             char c = CREATE;
             char path[100];
             char name[12];
@@ -154,6 +146,8 @@ int main(int argc, char* argv[]) {
             
             send(fd, &c, sizeof(c), 0);
             send(fd, message, 300 * sizeof(char), 0);
+        } else {
+        	printf("Unknown command\n");
         }
     }
 

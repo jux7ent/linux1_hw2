@@ -45,6 +45,7 @@ typedef struct {
 super_block sb;
 unsigned char* dev;
 inode inode_table[NUMBER_OF_INODES];
+struct file* f;
 //struct file* dev;
 
 long* write_ptrs(size_t size, void* file);
@@ -64,6 +65,7 @@ inode* get_inode(size_t indx);
 size_t find_file(char* path);
 void create_file(void* file, size_t size, char* name, size_t parent_indx, int type);
 void remove_file(size_t indx, size_t parent_indx);
+void save_fs(void);
 
 void remove_file(size_t indx, size_t parent_indx) {
     inode* node = &inode_table[indx];
@@ -336,18 +338,34 @@ int create_fs(void) {
     	return 0;
 }
 
+
+void save_fs(void) {
+	file_write(f, 0, full_buffer, 2 * BLOCK_SIZE + NUMBER_OF_BLOCKS * BLOCK_SIZE);
+}
+
+
 int start_fs(const char* fs_file_path) {
 	printk(KERN_INFO "StartFC\n");
 	
 	struct file* ndev = file_open(fs_file_path, O_RDWR, 0);
+	f = ndev;
 	
 	if (ndev == NULL) {
 		printk(KERN_INFO "OPEN FILE ERROR %s\n", fs_file_path);
 		return -1;
 	}
 	
-	create_fs();
-	open_fs();
+	dev = malloc(2 * BLOCK_SIZE + NUMBER_OF_BLOCKS * BLOCK_SIZE);
+	set_buffer(dev);
+	
+	file_read(ndev, 0, dev, 2 * BLOCK_SIZE + NUMBER_OF_BLOCKS * BLOCK_SIZE);
+	
+	if (open_fs()) {
+		create_fs();
+		open_fs();
+	}
+	
+	
 	
 	return 0;
 }

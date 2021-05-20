@@ -124,6 +124,8 @@ static ssize_t device_write(struct file* flip, const char* buffer, size_t len, l
   	mkdir(path, name);
   	
   	result_from_fs = "";
+  	
+  	save_fs();
   } else if (command == GET) { // cat
   	pr_info("command is CAT\n");
   	
@@ -149,6 +151,8 @@ static ssize_t device_write(struct file* flip, const char* buffer, size_t len, l
   	create(path, name, file_content, strlen(file_content) + 1);
   	
   	result_from_fs = "";
+  	
+  	save_fs();
   } else if (command == RMDIR) {
   	pr_info("command rm_dir\n");
   	
@@ -156,12 +160,14 @@ static ssize_t device_write(struct file* flip, const char* buffer, size_t len, l
   	mrmdir(path);
   	
   	result_from_fs = "";
+  	save_fs();
   } else if (command == RM) {
   	pr_info("command rm\n");
   	
   	char* path = message;
   	rm(path);
   	result_from_fs = "";
+  	save_fs();
   } else {
   	pr_info("unknown command\n");
   }
